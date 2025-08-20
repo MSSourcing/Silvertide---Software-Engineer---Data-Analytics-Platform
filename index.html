@@ -1,0 +1,578 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Software Engineer — Data Analytics Platform @ SilverTide</title>
+<link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+<style>
+/* =======================================================
+   8‑BIT / CYBER RETRO THEME — READABILITY TUNED
+   ======================================================= */
+:root{
+  --bg:#000;
+  --ink:#e9fbff;
+  --muted:#b6e6ff;
+  --aqua:#00e5ff;
+  --violet:#b08cff;
+  --magenta:#ff2da8;
+  --yellow:#ffd166;
+  --lime:#b6ff3b;
+  --panel:#0c0c1a;
+  --panel2:#0f0f2a;
+  --accent:#0ff;
+}
+*{box-sizing:border-box}
+html,body{height:100%}
+body{
+  margin:0; color:var(--ink);
+  background:#000;
+  font-family:'Press Start 2P', monospace;
+  font-size: 15px; line-height: 1.9;
+  image-rendering:pixelated;
+  overflow-x:hidden;
+  cursor: url('data:image/svg+xml;utf8,\
+  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24">\
+    <rect x="10" y="0" width="4" height="24" fill="%2300e5ff"/>\
+    <rect x="0" y="10" width="24" height="4" fill="%23ff2da8"/>\
+  </svg>') 12 12, crosshair;
+}
+a{color:var(--aqua); text-decoration:none}
+a:hover{text-decoration:underline}
+small{font-size:11px}
+
+/* Starfield layers (blocky squares) */
+#starL1,#starL2,#starL3{
+  position:fixed; inset:0; z-index:-3; display:block;
+}
+.scanlines::before{
+  content:""; position:fixed; inset:0; z-index:-2; pointer-events:none;
+  background: repeating-linear-gradient(0deg, rgba(255,255,255,.04) 0 1px, transparent 1px 3px);
+  mix-blend-mode:soft-light;
+}
+
+/* Layout */
+.wrap{ max-width:1200px; margin:0 auto; padding:22px 18px 100px }
+header.hero{
+  position:relative; border:4px solid #2a105a; background:linear-gradient(180deg,#170a2e,#0a0818);
+  padding:26px 20px; box-shadow: 0 0 0 4px #190a33 inset, 0 12px 0 #120726;
+}
+.title{
+  margin:10px 0 8px; font-size: clamp(20px, 4.4vw, 36px); color:#fff; text-shadow:4px 4px #00e5ff;
+  text-transform:uppercase; letter-spacing:.04em;
+}
+.kicker{ color:#aee4ff; margin:6px 0 12px; max-width:80ch }
+.badges{ display:flex; flex-wrap:wrap; gap:10px; margin-top:10px }
+.badge{ background:#0c0c20; border:3px solid #213; color:#cfe6ff; padding:10px 12px }
+
+/* Buttons */
+.btn{
+  display:inline-flex; align-items:center; gap:8px;
+  background:#0b0b1a; color:#e8f7ff; padding:12px 14px; border:3px solid #274; box-shadow:4px 4px 0 #062;
+  text-transform:uppercase; letter-spacing:.04em; transition:transform .05s linear;
+}
+.btn:hover{ transform: translate(-2px, -2px); box-shadow:6px 6px 0 #062 }
+.btn.mag{ border-color:#551141; box-shadow:4px 4px 0 #25061a }
+.btn.cya{ border-color:#115566; box-shadow:4px 4px 0 #06263a }
+.btn.yel{ border-color:#665a11; box-shadow:4px 4px 0 #463a06 }
+.btn.ghost{ background:#000; border-color:#233; box-shadow:4px 4px 0 #111 }
+
+.actions{ display:flex; gap:10px; flex-wrap:wrap; margin-top:10px }
+
+/* Sections */
+section{
+  margin:22px 0 0; padding:18px; border:4px solid #1a1a40; background:linear-gradient(180deg,#0a0a1a,#060612);
+  box-shadow: 0 0 0 4px #070716 inset, 8px 8px 0 #0a0a16;
+}
+h2{ margin:0 0 12px; font-size:18px; color:#ffd166; text-shadow:3px 3px #b08cff }
+p,li{ color:#e3f5ff; }
+ul{ margin:8px 0 0 0; padding-left:18px }
+li{ margin:10px 0 }
+
+.grid{ display:grid; gap:18px }
+@media(min-width:900px){ .cols-2{ grid-template-columns:1fr 1fr } .cols-3{ grid-template-columns:repeat(3,1fr) } }
+
+.note{
+  margin-top:12px; padding:12px 14px; border:3px dashed #265; color:#bfeacd; background:#001813;
+}
+.lore{ color:#f8cafc; }
+
+/* Sticky Apply bar */
+.sticky{
+  position:sticky; top:0; z-index:3; background:#000; border-bottom:4px solid #1a1a40;
+  padding:12px 14px; display:flex; gap:10px; justify-content:space-between; align-items:center;
+}
+.brand{ color:#c9f1ff; font-size:12px }
+.toc{ display:flex; gap:10px; flex-wrap:wrap }
+.toc a{ background:#0b0b1a; border:3px solid #233; padding:8px 10px; color:#a7dfff }
+.toc a:hover{ background:#11112a }
+
+/* Readable mode */
+body.readable{ font-size:16px; line-height:2.0; }
+body.readable section{ background:linear-gradient(180deg,#0c0c18,#070710) }
+body.readable .title{ text-shadow:3px 3px #00e5ff }
+body.readable .kicker{ color:#cfeaff }
+
+/* Terminal puzzle */
+.term{ background:#06101a; border:4px solid #0a2; padding:12px }
+.term .prompt{ color:#7affc6 }
+.term input{ width:100%; padding:12px; font-family:'Press Start 2P'; background:#000; color:#7affc6; border:3px solid #0a2; }
+.egg{ display:none; margin-top:10px; border:3px solid #0a2; padding:10px; color:#b6ff3b; background:#08180a }
+.egg.show{ display:block }
+
+/* Socials */
+.socials{ display:flex; flex-wrap:wrap; gap:10px; margin-top:8px }
+.socials a{ border:3px solid #123; background:#0a0a18; padding:10px 12px; color:#cfe6ff }
+.socials a:hover{ transform: translate(-2px,-2px) }
+
+/* Platformer game panel */
+.gamewrap{ display:grid; gap:12px }
+#game{ display:block; width:100%; max-width:900px; aspect-ratio: 16 / 9; background:#000; border:4px solid #42114b; box-shadow:8px 8px 0 #210a25; image-rendering: pixelated; }
+.glegend{ color:#aee4ff; font-size:12px }
+kbd{ padding:2px 4px; border:2px solid #334; background:#000; color:#9ad6ff }
+
+/* Footer */
+footer{ margin:22px 0 80px; text-align:center; color:#9ad6ff; font-size:12px; opacity:.9 }
+
+/* ============== 8‑bit Spotify Frame ============== */
+.spotify{ margin-top:22px; padding:14px; background:#0b0b1a; border:4px solid #143; box-shadow:8px 8px 0 #062; }
+.pixel-frame{ position:relative; padding:12px; background:#000; border:4px solid #265; box-shadow: inset 0 0 0 4px #071, 6px 6px 0 #052; }
+.pixel-frame::after{ content:""; position:absolute; inset:-4px; pointer-events:none; background: radial-gradient(6px 6px at 6px 6px, #0f0 40%, transparent), radial-gradient(6px 6px at calc(100% - 6px) 6px, #0ff 40%, transparent), radial-gradient(6px 6px at 6px calc(100% - 6px), #ff2da8 40%, transparent), radial-gradient(6px 6px at calc(100% - 6px) calc(100% - 6px), #ffd166 40%, transparent); mix-blend-mode: screen; }
+.spotify h2{ margin-bottom:10px }
+.eq{ display:flex; gap:4px; height:24px; align-items:flex-end; margin:10px 0 8px; }
+.eq .bar{ width:8px; background:#0ff; box-shadow:0 0 10px #0ff; animation: bounce 1.2s infinite steps(6); }
+.eq .bar:nth-child(2){ animation-duration: 1.05s; background:#b08cff; box-shadow:0 0 10px #b08cff }
+.eq .bar:nth-child(3){ animation-duration: 0.9s; background:#ff2da8; box-shadow:0 0 10px #ff2da8 }
+.eq .bar:nth-child(4){ animation-duration: 1.3s; background:#ffd166; box-shadow:0 0 10px #ffd166 }
+@keyframes bounce{ 0%,100%{ height:4px } 50%{ height:22px } }
+.spotify .scan{ position:absolute; inset:0; pointer-events:none; mix-blend-mode: overlay; background: repeating-linear-gradient(0deg, rgba(255,255,255,.05) 0 1px, transparent 1px 3px); }
+.spotify iframe{ width:100%; height:152px; border:0; display:block; filter: saturate(1.2) contrast(1.1); }
+
+/* Skip link for a11y */
+.skip{ position:absolute; left:-9999px; top:auto; width:1px; height:1px; overflow:hidden }
+.skip:focus{ left:8px; top:8px; width:auto; height:auto; padding:8px 10px; background:#111; border:3px solid #0ff; color:#0ff }
+</style>
+</head>
+<body class="scanlines">
+<a class="skip" href="#project">Skip to content</a>
+
+<canvas id="starL1" aria-hidden="true"></canvas>
+<canvas id="starL2" aria-hidden="true"></canvas>
+<canvas id="starL3" aria-hidden="true"></canvas>
+
+<div class="sticky">
+  <div class="brand">SILVERTIDE • DATA ANALYTICS PLATFORM</div>
+  <div class="toc">
+    <a href="#project">Project</a>
+    <a href="#role">Role</a>
+    <a href="#do">Responsibilities</a>
+    <a href="#must">Must‑Have</a>
+    <a href="#nice">Nice‑to‑Have</a>
+    <a href="#process">Process</a>
+    <a href="#advice">Interview Tips</a>
+    <a href="#puzzle">Puzzle</a>
+    <a href="#platformer">Game</a>
+    <a href="#contact">Contact</a>
+  </div>
+  <div class="actions">
+    <a class="btn cya" id="soundToggle" href="#sound">SOUND: OFF</a>
+    <a class="btn ghost" id="readableToggle" href="#read">READABLE MODE</a>
+    <a class="btn mag" href="#contact">CONTACT</a>
+    <a class="btn yel" href="#apply">APPLY</a>
+  </div>
+</div>
+
+<div class="wrap">
+  <header class="hero">
+    <div class="title">Software Engineer — Data Analytics Platform</div>
+    <div class="kicker">Own the “data universe”: pipelines, feeds, storage, compute, and blazing‑fast data access for our hedge‑fund analytics stack.</div>
+    <div class="badges">
+      <div class="badge">Remote (Poland) • B2B</div>
+      <div class="badge">£5,500–£6,000 GBP / month</div>
+      <div class="badge">Python • Pandas/Polars • Airflow/Prefect</div>
+      <div class="badge">APIs • Time‑series • Visualisation</div>
+    </div>
+    <div class="actions" style="margin-top:12px">
+      <a class="btn mag" href="#platformer">Play Mini‑Game</a>
+      <a class="btn cya" href="#puzzle">Solve the Puzzle</a>
+      <a class="btn yel" id="copyJD" href="#copy">Copy JD</a>
+    </div>
+  </header>
+
+  <section id="project">
+    <h2>About the Project</h2>
+    <p>SilverTide builds buy‑side brokerage software and a SaaS analytics platform used by global hedge funds. Our tools help PMs generate differentiated trade ideas, perform pre‑trade analysis, and extract market intelligence from rich financial data.</p>
+    <ul>
+      <li>Two products: (1) Brokerage with advanced analytics; (2) SaaS analytics sold directly to hedge funds.</li>
+      <li>Stage: Scaling new asset classes and data sources; evolve automation, data quality, and cost‑efficient compute.</li>
+      <li>Data stack themes: pragmatic Python, orchestration (Airflow/Prefect), time‑series storage (e.g., TimescaleDB), Polars where it pays.</li>
+    </ul>
+    <p class="note lore">Mystery fragment: “The platform hums at dawn. Data pours in like stardust. Can you keep it pure?”</p>
+  </section>
+
+  <section id="role">
+    <h2>Role Scope</h2>
+    <div class="grid cols-2">
+      <div>
+        <p>Be developer‑first: integrate market data, model transforms, set observability, and expose high‑performance interfaces for analytics and visualisation apps.</p>
+        <ul>
+          <li>Design robust ETL/ELT in Python (clean code + tests).</li>
+          <li>Normalise real‑time & historical feeds; manage backfills safely.</li>
+          <li>Optimise storage layout, partitioning, and query paths.</li>
+        </ul>
+      </div>
+      <div>
+        <ul>
+          <li>Own orchestration (Airflow/Prefect); automate runbooks.</li>
+          <li>Define data contracts; evolve developer ergonomics.</li>
+          <li>Partner with product/quant; ship value over ceremony.</li>
+        </ul>
+        <p class="note">We scale analytical complexity without scaling headcount — via automation, good abstractions, and thoughtful trade‑offs.</p>
+      </div>
+    </div>
+  </section>
+
+  <section id="do">
+    <h2>Responsibilities</h2>
+    <div class="grid cols-2">
+      <div>
+        <ul>
+          <li>Build pipelines with retries, idempotency, lineage, and alerts.</li>
+          <li>Integrate data provider APIs; handle schema drift & code migrations.</li>
+          <li>Implement quality checks (e.g., Great Expectations‑style patterns).</li>
+        </ul>
+      </div>
+      <div>
+        <ul>
+          <li>Expose internal APIs for analytics apps and dashboards.</li>
+          <li>Write crisp docs; define patterns to reduce toil.</li>
+          <li>Guard latency, reliability, and costs with observability.</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section id="must">
+    <h2>Must‑Have</h2>
+    <ul>
+      <li>3–7 years software/data engineering with strong Python.</li>
+      <li>Pandas/Polars for manipulation; vectorised thinking.</li>
+      <li>Airflow or Prefect for orchestration (Dagster welcome).</li>
+      <li>Data modelling, performance trade‑offs, and testing chops.</li>
+      <li>Git, code reviews, CI; clean abstractions.</li>
+    </ul>
+  </section>
+
+  <section id="nice">
+    <h2>Nice‑to‑Have</h2>
+    <ul>
+      <li>Cloud (AWS/GCP/Azure), containers, CI/CD.</li>
+      <li>Plotly Dash or similar for interactive visualisation.</li>
+      <li>Time‑series stores (e.g., TimescaleDB); columnar formats.</li>
+      <li>Data‑quality frameworks and actionable alerting.</li>
+    </ul>
+  </section>
+
+  <section id="process">
+    <h2>Hiring Process</h2>
+    <ol>
+      <li><strong>Intro call</strong> — background, expectations, constraints.</li>
+      <li><strong>Technical interview</strong> — pragmatic coding & architecture discussion.</li>
+      <li><strong>Real‑life take‑home + review</strong> — integrate a financial data source; present choices & trade‑offs.</li>
+    </ol>
+    <p class="note">Right person > right now. A 3‑month notice isn’t a blocker if the fit is strong.</p>
+  </section>
+
+  <section id="advice">
+    <h2>Interview Advice</h2>
+    <div class="grid cols-2">
+      <div>
+        <ul>
+          <li>Show ownership: outline how you’d <em>own</em> ingestion → quality → access.</li>
+          <li>Document assumptions and failure modes; think in DAGs.</li>
+          <li>Explain a past pandas → Polars speed‑up (or why you didn’t).</li>
+        </ul>
+      </div>
+      <div>
+        <ul>
+          <li>Discuss orchestration trade‑offs (Airflow vs Prefect vs Dagster) in your context.</li>
+          <li>Bring a data‑quality story: thresholds, anomalies, alerts, runbooks.</li>
+          <li>Show a tiny internal API design you’re proud of (shape, versioning, errors).</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section id="puzzle">
+    <h2>Mystery Terminal — Unlock a Shortcut</h2>
+    <div class="term">
+      <div style="margin:6px 0 8px;color:#cfe6ff">Enter a Python‑style expression that evaluates to <code>42</code> (e.g., <code>6*7</code>, <code>84/2</code>) and press Enter.</div>
+      <div><span class="prompt">&gt;&gt;&gt; </span><input id="pyline" type="text" placeholder="6*7" autocomplete="off" spellcheck="false" /></div>
+      <div id="egg" class="egg">
+        ✅ Access granted — Fast‑track links:
+        <div class="actions" style="margin-top:8px">
+          <a class="btn cya" href="mailto:mateuszsiekierka@ntiative.com?subject=Application%20—%20Software%20Engineer%20(Data%20Analytics%20Platform)%20@%20SilverTide">Email CV</a>
+          <a class="btn yel" href="https://calendly.com/mateuszsiekierka-ntiative/senior-frontend-engineer-pie-insurance" target="_blank" rel="noopener">Book a Chat</a>
+        </div>
+      </div>
+    </div>
+    <p class="note lore">Mystery fragment: “Three shards, one signal. When the last is found, the channel opens.”</p>
+  </section>
+
+  <section id="platformer">
+    <h2>8‑Bit Platformer — Collect the Data Shards</h2>
+    <div class="gamewrap">
+      <canvas id="game" width="900" height="506"></canvas>
+      <div class="glegend">Controls: <kbd>←</kbd><kbd>→</kbd> move • <kbd>SPACE</kbd> jump • Collect 3 ✦ data shards to reveal the hidden message.</div>
+      <div id="gameMsg" class="note" style="display:none"></div>
+    </div>
+  </section>
+
+  <section class="spotify" id="soundtrack">
+    <h2>Soundtrack — What I Code To</h2>
+    <div class="pixel-frame">
+      <div class="eq" aria-hidden="true">
+        <div class="bar"></div><div class="bar"></div><div class="bar"></div><div class="bar"></div>
+      </div>
+      <iframe data-testid="embed-iframe"
+        src="https://open.spotify.com/embed/artist/7GyhmlEy51sGUE09A5AWzc?utm_source=generator&theme=0"
+        allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
+        loading="lazy"></iframe>
+      <div class="scan" aria-hidden="true"></div>
+    </div>
+    <small>Tip: toggle <a href="#sound" id="jumpToSound">SOUND</a> at the top for bleeps & chords.</small>
+  </section>
+
+  <section id="contact">
+    <h2 id="apply">Contact & Socials</h2>
+    <p>Choose your channel:</p>
+    <div class="socials">
+      <a href="mailto:mateuszsiekierka@ntiative.com">Email</a>
+      <a href="https://calendly.com/mateuszsiekierka-ntiative/senior-frontend-engineer-pie-insurance" target="_blank" rel="noopener">Calendly</a>
+      <a href="https://www.linkedin.com/in/mateuszsiekierka/" target="_blank" rel="noopener">LinkedIn</a>
+      <a href="https://x.com/vitrvagabond" target="_blank" rel="noopener">X (Twitter)</a>
+    </div>
+  </section>
+
+  <footer>© SilverTide — Built with ❤️, data, and pixel stars.</footer>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+/* =======================================================
+   AUDIO — SIMPLE 8‑BIT BLEEPS (WebAudio)
+   ======================================================= */
+let audioOn = false, ac, master;
+function ensureAudio(){
+  if(!ac){
+    ac = new (window.AudioContext || window.webkitAudioContext)();
+    master = ac.createGain(); master.gain.value = 0.15; master.connect(ac.destination);
+  }
+}
+function bleep(freq=880, dur=0.08, type='square'){
+  if(!audioOn) return;
+  ensureAudio();
+  const o = ac.createOscillator(); const g = ac.createGain();
+  o.type = type; o.frequency.value = freq;
+  g.gain.setValueAtTime(0.0001, ac.currentTime);
+  g.gain.exponentialRampToValueAtTime(0.35, ac.currentTime+0.01);
+  g.gain.exponentialRampToValueAtTime(0.0001, ac.currentTime+dur);
+  o.connect(g).connect(master); o.start(); o.stop(ac.currentTime+dur+0.02);
+}
+function chord(notes=[880,1110,1480], gap=70){ notes.forEach((n,i)=>setTimeout(()=>bleep(n,0.09), i*gap)) }
+
+const soundToggle = document.getElementById('soundToggle');
+soundToggle.addEventListener('click', (e)=>{
+  e.preventDefault(); audioOn = !audioOn;
+  ensureAudio(); ac.resume && ac.resume();
+  if(audioOn){ chord([660,880,1320],90) }
+  soundToggle.textContent = 'SOUND: ' + (audioOn ? 'ON' : 'OFF');
+});
+
+document.getElementById('jumpToSound')?.addEventListener('click', (e)=>{ bleep(980,0.06); });
+// subtle hover bleep (buttons only)
+document.addEventListener('mouseover', (e)=>{ if(e.target.closest('.btn')) bleep(700,0.04); }, {passive:true});
+
+/* =======================================================
+   COPY JD
+   ======================================================= */
+document.getElementById('copyJD').addEventListener('click', (e)=>{
+  e.preventDefault();
+  const text = document.body.innerText.replace(/\n{3,}/g,"\n\n");
+  navigator.clipboard.writeText(text).then(()=>alert('JD copied ✅')).catch(()=>alert('Clipboard blocked by browser'));
+  bleep(980,0.06);
+});
+
+/* Readable mode toggle */
+document.getElementById('readableToggle').addEventListener('click', (e)=>{
+  e.preventDefault();
+  document.body.classList.toggle('readable');
+});
+
+/* =======================================================
+   TERMINAL PUZZLE — SIMPLE ARITHMETIC TO 42
+   ======================================================= */
+const input = document.getElementById('pyline');
+const egg = document.getElementById('egg');
+function evalArith(src){
+  const toks = (src||'').replace(/\s+/g,'').match(/[0-9]+|[()+\-*/]/g);
+  if(!toks) return NaN; let i=0;
+  function E(){ let v=T(); while(i<toks.length && /[+-]/.test(toks[i])){ const op=toks[i++]; const t=T(); v=op==='+'?v+t:v-t } return v }
+  function T(){ let v=F(); while(i<toks.length && /[*/]/.test(toks[i])){ const op=toks[i++]; const f=F(); v=op==='*'?v*f:v/f } return v }
+  function F(){ const t=toks[i++]; if(t==='('){ const v=E(); if(toks[i]!==')') throw 0; i++; return v } if(/[+-]/.test(t)) return t==='+'?+F():-F(); if(!/^\d+$/.test(t)) throw 0; return parseInt(t,10) }
+  const v=E(); if(i!==toks.length) throw 0; return v;
+}
+input.addEventListener('keydown', (e)=>{
+  if(e.key==='Enter'){
+    let ok=false;
+    try{ ok = Math.abs(evalArith(input.value)-42) < 1e-9 }catch{ ok=false }
+    if(ok){ egg.classList.add('show'); chord([880,988,1318,1760],110) } else { egg.classList.remove('show'); chord([392,370,349],90) }
+  }
+});
+
+/* =======================================================
+   PLATFORMER — SIMPLE 8‑BIT CANVAS GAME
+   ======================================================= */
+const canvas = document.getElementById('game');
+const ctx = canvas.getContext('2d');
+let W = canvas.width, H = canvas.height;
+let keys = {};
+document.addEventListener('keydown', e=>{ keys[e.code]=true; if(e.code==='Space') e.preventDefault(); });
+document.addEventListener('keyup',   e=>{ keys[e.code]=false });
+
+const world = {
+  gravity: 0.7, friction: 0.84,
+  player: { x:40, y:H-64, vx:0, vy:0, w:18, h:18, onGround:false },
+  shards: [],
+  platforms: [
+    {x:0,y:H-20,w:W,h:20},
+    {x:120,y:H-90,w:160,h:16},
+    {x:320,y:H-160,w:120,h:16},
+    {x:520,y:H-220,w:160,h:16},
+    {x:740,y:H-140,w:120,h:16}
+  ],
+  collected:0, goal:3
+};
+
+world.shards = [
+  {x:190,y:H-120, s:10, got:false},
+  {x:560,y:H-240, s:10, got:false},
+  {x:780,y:H-160, s:10, got:false}
+];
+
+function rect(a,b){ return !(a.x+a.w < b.x || a.x > b.x+b.w || a.y+a.h < b.y || a.y > b.y+b.h) }
+
+function step(){
+  const p = world.player;
+  const speed = 1.7;
+  if(keys['ArrowLeft'])  p.vx -= speed;
+  if(keys['ArrowRight']) p.vx += speed;
+  if(keys['Space'] && p.onGround){ p.vy = -11; p.onGround=false; bleep(880,0.08) }
+
+  p.vy += world.gravity;
+  p.x  += p.vx;
+  p.y  += p.vy;
+  p.vx *= world.friction;
+
+  p.onGround=false;
+  for(const plat of world.platforms){
+    const pb = {x:p.x, y:p.y, w:p.w, h:p.h};
+    const qb = {x:plat.x, y:plat.y, w:plat.w, h:plat.h};
+    if(rect(pb,qb)){
+      if(p.vy > 0 && p.y + p.h - p.vy <= plat.y){
+        p.y = plat.y - p.h; p.vy = 0; p.onGround = true;
+      }else if(p.vy < 0 && p.y - p.vy >= plat.y + plat.h){
+        p.y = plat.y + plat.h; p.vy = 0;
+      }else if(p.vx > 0){ p.x = plat.x - p.w; p.vx = 0 }
+      else if(p.vx < 0){ p.x = plat.x + plat.w; p.vx = 0 }
+    }
+  }
+
+  if(p.x<0) p.x=0;
+  if(p.x+p.w>W) p.x=W-p.w;
+  if(p.y>H-p.h){ p.y=H-p.h; p.vy=0; p.onGround=true; }
+
+  for(const s of world.shards){
+    if(!s.got){
+      const sb = {x:s.x, y:s.y, w:s.s, h:s.s};
+      const pb = {x:p.x, y:p.y, w:p.w, h:p.h};
+      if(rect(pb,sb)){ s.got=true; world.collected++; chord([990,1320],80) }
+    }
+  }
+
+  draw();
+  requestAnimationFrame(step);
+}
+
+function draw(){
+  ctx.fillStyle = '#000'; ctx.fillRect(0,0,W,H);
+
+  ctx.fillStyle = '#1a1a40';
+  for(const plat of world.platforms){ ctx.fillRect(plat.x, plat.y, plat.w, plat.h) }
+
+  ctx.fillStyle = '#00e5ff';
+  for(const s of world.shards){
+    if(!s.got){
+      ctx.fillRect(s.x+4, s.y, 2, 2);
+      ctx.fillRect(s.x+2, s.y+2, 6, 2);
+      ctx.fillRect(s.x,   s.y+4,10, 2);
+      ctx.fillRect(s.x+2, s.y+6, 6, 2);
+      ctx.fillRect(s.x+4, s.y+8, 2, 2);
+    }
+  }
+
+  const p = world.player;
+  ctx.fillStyle = '#ff2da8';
+  ctx.fillRect(p.x, p.y, p.w, p.h);
+  ctx.fillStyle = '#fff';
+  ctx.fillRect(p.x+4, p.y+5, 2, 2);
+
+  ctx.fillStyle = '#aee4ff';
+  ctx.font = '14px \'Press Start 2P\', monospace';
+  ctx.fillText(`✦ ${world.collected}/${world.goal}`, 10, 20);
+
+  if(world.collected >= world.goal){
+    const msg = document.getElementById('gameMsg');
+    if(msg.style.display!=='block'){
+      msg.style.display='block';
+      msg.innerHTML = 'Easter Egg unlocked! → <a class="btn yel" href="mailto:mateuszsiekierka@ntiative.com?subject=I%20collected%20the%20data%20shards!">Email Mateusz</a> or <a class="btn cya" target="_blank" rel="noopener" href="https://calendly.com/mateuszsiekierka-ntiative/senior-frontend-engineer-pie-insurance">Book a chat</a>';
+      chord([660,880,1100,1320],95);
+    }
+  }
+}
+requestAnimationFrame(step);
+
+/* =======================================================
+   PARALLAX PIXEL STARFIELD
+   ======================================================= */
+function makeStarLayer(id, density, speedX, speedY, color){
+  const c = document.getElementById(id);
+  if(!c) return;
+  const ctx = c.getContext('2d');
+  let w,h,stars=[];
+  function resize(){
+    w=c.width=window.innerWidth; h=c.height=window.innerHeight;
+    const count = Math.min(600, Math.floor(w*h/density));
+    stars = new Array(count).fill(0).map(()=>({ x:(Math.random()*w)|0, y:(Math.random()*h)|0, s:((Math.random()*3)|0)+2 }));
+  }
+  window.addEventListener('resize', resize, {passive:true}); resize();
+  function tick(){
+    ctx.clearRect(0,0,w,h);
+    ctx.imageSmoothingEnabled=false;
+    ctx.fillStyle=color;
+    for(const s of stars){
+      s.x += speedX; s.y += speedY;
+      if(s.x<0) s.x=w; if(s.x>w) s.x=0; if(s.y<0) s.y=h; if(s.y>h) s.y=0;
+      ctx.fillRect(s.x|0, s.y|0, s.s|0, s.s|0);
+    }
+    requestAnimationFrame(tick);
+  }
+  tick();
+}
+makeStarLayer('starL1', 4500, -0.15,  0.06, '#a7f5ff');
+makeStarLayer('starL2', 3500, -0.10,  0.03, '#b08cff');
+makeStarLayer('starL3', 2500, -0.05, -0.02, '#ff2da8');
+}); // DOMContentLoaded
+</script>
+</body>
+</html>
